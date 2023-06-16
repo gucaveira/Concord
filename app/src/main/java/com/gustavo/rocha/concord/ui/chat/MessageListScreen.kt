@@ -120,7 +120,7 @@ fun MessageScreen(
 }
 
 @Composable
-fun SelectedMediaContainer(
+private fun SelectedMediaContainer(
     state: MessageListUiState,
     onDeselectMedia: () -> Unit,
 ) {
@@ -131,6 +131,7 @@ fun SelectedMediaContainer(
         color = MaterialTheme.colorScheme.outline
     )
     Box(
+        contentAlignment = Alignment.BottomEnd,
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.onPrimaryContainer)
@@ -165,7 +166,7 @@ fun SelectedMediaContainer(
 }
 
 @Composable
-fun EntryTextBar(
+private fun EntryTextBar(
     state: MessageListUiState,
     onShowSelectorFile: () -> Unit,
     onClickSendMessage: () -> Unit,

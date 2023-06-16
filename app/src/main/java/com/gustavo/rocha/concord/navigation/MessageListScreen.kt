@@ -3,9 +3,10 @@ package com.gustavo.rocha.concord.navigation
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.gustavo.rocha.concord.ui.chat.MessageListViewModel
@@ -23,6 +24,7 @@ fun NavGraphBuilder.messageListScreen(onBack: () -> Unit = {}) {
         navBackStackEntry.arguments?.getString(messageChatIdArgument)?.let { chatId ->
             val viewModelMessage = hiltViewModel<MessageListViewModel>()
             val uiState by viewModelMessage.uiState.collectAsState()
+            val context = LocalContext.current
 
             MessageScreen(
                 state = uiState,
@@ -44,6 +46,11 @@ fun NavGraphBuilder.messageListScreen(onBack: () -> Unit = {}) {
 
             if (uiState.showBottomSheetSticker) {
                 val stickerList = mutableStateListOf<String>()
+
+                context.getExternalFilesDir("stickers")?.listFiles()?.forEach { file ->
+                    stickerList.add(file.path)
+                }
+
                 ModalBottomSheetSticker(
                     stickerList = stickerList,
                     onSelectedSticker = {
@@ -71,7 +78,7 @@ fun NavGraphBuilder.messageListScreen(onBack: () -> Unit = {}) {
     }
 }
 
-internal fun NavController.navigateToMessageScreen(
+internal fun NavHostController.navigateToMessageScreen(
     chatId: Long,
     navOptions: NavOptions? = null,
 ) {

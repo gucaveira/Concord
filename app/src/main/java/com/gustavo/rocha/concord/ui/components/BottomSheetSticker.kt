@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -59,7 +60,7 @@ fun ModalBottomSheetSticker(
 }
 
 @Composable
-fun BottomSheetStickers(
+private fun BottomSheetStickers(
     stickerList: MutableList<String>,
     onSelectedSticker: (Uri) -> Unit = {},
 ) {
@@ -69,7 +70,7 @@ fun BottomSheetStickers(
     Column(
         Modifier
             .fillMaxWidth()
-            .height(100.dp),
+            .heightIn(100.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -101,7 +102,7 @@ fun BottomSheetStickers(
                             .size(50.dp)
                             .align(Alignment.Center),
                         contentScale = ContentScale.Inside,
-                        model = "",
+                        model = item,
                         placeholder = painterResource(R.drawable.image_place_holder),
                         error = painterResource(R.drawable.image_place_holder),
                         contentDescription = null
