@@ -1,5 +1,8 @@
 package com.gustavo.rocha.concord.navigation
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -63,9 +66,18 @@ fun NavGraphBuilder.messageListScreen(onBack: () -> Unit = {}) {
                     })
             }
 
+            val pickMedia = rememberLauncherForActivityResult(
+                PickVisualMedia()
+            ) { uri ->
+                if (uri != null) {
+                    viewModelMessage.loadMediaInScreen(uri.toString())
+                }
+            }
+
             if (uiState.showBottomSheetFile) {
                 ModalBottomSheetFile(
                     onSelectPhoto = {
+                        pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageAndVideo))
                         viewModelMessage.setShowBottomSheetFile(false)
                     },
                     onSelectFile = {
